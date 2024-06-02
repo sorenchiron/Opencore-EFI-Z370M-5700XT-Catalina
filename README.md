@@ -1,12 +1,9 @@
 # Opencore-EFI-Z370M-5700XT-Catalina
 verified working EFIs for installing and running MacOS Catalina 10.15.1 version 19B88, on Asus Z370M Plus II.
-
-# Opencore-EFI-Z370M
 `Opencore-0.9.9` EFI for Hackintosh `10.15.1-Catalina` install/boot.
-华硕 Asus Z370M Plus II 主板
 
 # 主板接口图 Motherboard plugs graph
-![华硕z370m主板接口图](imgs/z370m-plus-ii-plugs.jpg)
+![华硕 Asus Z370M Plus II 主板接口图](imgs/z370m-plus-ii-plugs.jpg)
 
 # 硬件 Hardware Specification
 The total worth of this hackintosh is ￥2876 ($398 USD)
@@ -28,6 +25,9 @@ The total worth of this hackintosh is ￥2876 ($398 USD)
 | --- | --- |
 | EFI-catalina-UHD-installer | 安装盘所用 for USB-sitck Installer |
 | EFI-catalina-5700XT-active | 双显可用 iGPU+dGPU |
+| Tools/VDADecoderChecker | Mac下检测硬件加速工作状态。Opencore上的那一份不好使，段错误，这个是其他渠道下载的，实测可用 |
+| Tools/gfxutil | Mac下检测图形设备PCIE路径信息`gfxutil -f GFX0` |
+| Tools/forbit-sleep.sh | 关闭所有自动休眠睡眠，仅锁屏后熄灭屏幕 |
 
 其中，`EFI-catalina-UHD-installer` 安装时插iGPU核显，否则乱显无法安装。
 `EFI-catalina-UHD-installer` 安装时是紫屏，是还未打缓冲帧+屏幕补丁的缘故，这个补丁需要安装成功后根据你自己的核显+屏幕+插口情况使用Hackintool定制。
@@ -36,7 +36,46 @@ The total worth of this hackintosh is ￥2876 ($398 USD)
 Please connect to the HDMI on-board when installing using `EFI-catalina-UHD-installer` EFI, to avoid artifact-messed rendering on 5700XT. You may encounter purple colored UI which is fine. You can patch the framebuffer and EDID later according to your iGPU model and display hardware.
 After install, replace system EFI with `EFI-catalina-5700XT-active` and now you can plug to the dGPU 5700XT.  
 
-### config.plist 详细说明
+### 目前的体验 Current performance
+- [x] Apple ID 登录正常
+- [x] iCloud 全部服务正常，AppStore正常。
+- [x] AriDrop 正常
+- [x] 西部数据SSD完全正常
+- [x] 锁屏解锁体验正常，锁屏熄屏正常。主机不睡眠，锁屏后自动休停屏幕，体验正常。
+- [x] 开关机流程顺畅，工作正常。无`safe-mode`警告。
+- [x] Safari、Firefox浏览器正常，看视频正常，硬件加速默认开启，无错误。
+- [x] USB口均正常。
+- [x] 蓝牙连音响、连键盘正常
+- [x] 妙控板2的蓝牙/有线均正常
+- [x] 速度完爆一切macbook pro，同时开20个sketch大文件画图，完全流畅毫无卡顿。
+- [x] 自购SSD太划算了，Nvme 1TB才三百来块，速度快的飞起，反观Apple，无语。
+- [ ] 深度睡眠hibernate和浅睡唤醒Darkwake均设置为禁止。不差这点休眠电费。休眠写sleep image还很浪费固态寿命。
+
+### 详细说明 BIOS+USB Details
+- 关于BIOS
+    - 关闭vt-d
+    - 关闭usb s5唤醒
+    - 关闭快速启动
+    - 关闭安全启动
+    - 关闭串口
+    - 关闭网络唤醒等各类唤醒
+    - 启动类型=其他操作系统
+    - 关闭 Resizable Bar
+    - 开启大于4G寻址
+    - 北桥-开启核显
+    - 北桥-核显分配内存=1024MB
+    - 北桥-首选显卡=自动
+    - 开启内存XMP
+    - 其他更细致的设定，请遵循[Opencore](https://dortania.github.io/OpenCore-Install-Guide/config.plist/coffee-lake.html#starting-point)针对Coffeelake-CPU的建议
+- 关于USB安装盘
+    - 使用了USB3盘，镜像加载速度明显提升。
+    - 从mac上下载了Ventura的安装dmg，大小12GB，在mac下使用命令制作了完整系统的安装U盘
+    - 尝试过Opencore推荐的macrecovery小镜像，只有673MB，但是完整系统需要联网下载，网速越来越慢，要至少48小时，中国区果友可以直接放弃这种在线安装思路。
+- 关于主板USB口
+    - 使用`USBToolBox.kext`,`UTBMap.kext`映射端口
+    - 如果你插的主板口不是我提到的`U31G1_34`和`USB1314`，则应该自行下载 `USBToolBox` 的程序工具，重新映射端口，并生成你自己的 `UTBMap.kext`，替换本仓库EFI中的 `UTBMap.kext`。
+
+### config.plist 设置详细说明
 | Key | Value | Details |
 | --- | --- | --- |
 | Booter->Quirks |  |  |
