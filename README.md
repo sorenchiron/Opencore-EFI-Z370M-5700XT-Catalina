@@ -49,6 +49,7 @@ After install, replace system EFI with `EFI-catalina-5700XT-active` and now you 
 - [x] 妙控板2的蓝牙/有线均正常
 - [x] 速度完爆一切macbook pro，同时开20个sketch大文件画图，完全流畅毫无卡顿。
 - [x] 自购SSD太划算了，Nvme 1TB才三百来块，速度快的飞起，反观Apple，无语。
+- [x] 彻底解决了5700XT黑屏绿屏死机问题。本EFI+Catalina系统，连测14天无故障。也证明了黑绿屏本质上是MacOS写的烂导致的，与显卡无关。
 - [ ] 深度睡眠hibernate和浅睡唤醒Darkwake均设置为禁止。不差这点休眠电费。休眠写sleep image还很浪费固态寿命。
 
 ### 详细说明 BIOS+USB Details
@@ -141,3 +142,4 @@ I could steadily encounter aforementioned crashes 8 times in a day. But now Cata
 
 # Appendix
 - 下载各个版本的 MacOS downloads：https://support.apple.com/zh-cn/102662
+- 支持Win11的5700XT刷写工具集合：https://github.com/sorenchiron/Sapphire5700XT-VBIOS-TOOLS
